@@ -1,3 +1,7 @@
 body {
     background-color: darkslategray;
 }
+
+#form {
+    display: none;
+}
