@@ -1,11 +1,39 @@
 'use strict';
 
+let cards = [];
+// let houseColors = [
+//     {
+//         houseName: 'Gryffindor',
+//         houseColor: #AE0001,
+//     };
+//     {
+//         houseName: 'Hufflepuff',
+//         houseColor: #FFDB00,
+//     };
+//     {
+//         houseName: 'Slytherin',
+//         houseColor: #1A472A,
+//     };
+//     {
+//         houseName: 'Ravenclaw',
+//         houseColor: #0E1A40,
+//     };
+// ]
+
+const buttonEvents = () => {
+    document.querySelector('#start-sorting').addEventListener('click', handleStartButtonClick);
+    document.querySelector('#btn-submit').addEventListener('click', handleSubmitButtonClick);
+    document.querySelector('#cards').addEventListener('click', expelStudent);
+}
+
+const printToDom = (divId, textToPrint) => {
+    const selectedDiv = document.getElementById(divId);
+    selectedDiv.innerHTML = textToPrint;
+}
 
 const handleStartButtonClick = (e) => {
     document.getElementById('form').style.display = 'block';
 }
-
-let cards = [];
 
 const handleSubmitButtonClick = (e) => {
 
@@ -14,30 +42,17 @@ const handleSubmitButtonClick = (e) => {
     const houses = ['Hufflepuff', 'Slytherin', 'Gryffindor', 'Ravenclaw'];
     let randomHouse = houses[Math.floor(Math.random() * houses.length)];
 
-    let obj = {
-        studentName: inputName,
-        houseName: houses[Math.floor(Math.random() * houses.length)],
-    };
-
-    cards.push(obj);
-    cardBuilder(cards);
-}
-
-const handleExpelButtonClick = (e) => {
-    const target = e.target.id;
-    cards.splice(target, 1);
-    cardBuilder(cards);
-}
-
-const buttonEvents = () => {
-    document.querySelector('#btn-submit').addEventListener('click', handleSubmitButtonClick);
-    document.querySelector('#start-sorting').addEventListener('click', handleStartButtonClick);
-    document.querySelector('#cards').addEventListener('click', handleExpelButtonClick);
-}
-
-const printToDom = (divId, textToPrint) => {
-    const selectedDiv = document.getElementById(divId);
-    selectedDiv.innerHTML = textToPrint;
+    if (inputName === '') {
+        errorMessage();
+    } else {
+        let obj = {
+            studentName: inputName,
+            houseName: randomHouse,
+        };
+    
+        cards.push(obj);
+        cardBuilder(cards);
+    }
 }
 
 const cardBuilder = (arr) => {
@@ -48,16 +63,29 @@ const cardBuilder = (arr) => {
                         <div class="card-body">
                             <h5 class="card-title">${cards[i].studentName}</h5>
                             <p class="card-text">${cards[i].houseName}</p>
-                            <a href="#" class="btn btn-danger" id="${i}">Expel</a>
+                            <a href="#" class="btn btn-danger" type="button" id="${i}">Expel</a>
                         </div>
                     </div>`;
     };
     
-    printToDom('cards', domString)
+    printToDom('cards', domString);
+}
+
+const errorMessage = () => {
+    alert("You must enter a student's name to be sorted!");
+}
+
+const expelStudent = (e) => {
+    const target = e.target.id;
+    const ctype = e.target.type;
+
+    if (ctype === 'button') {
+        cards.splice(target, 1);
+        cardBuilder(cards);
+    }
 }
 
 const init = () => {
-    cardBuilder(cards);
     buttonEvents();
 }
 
