@@ -6,6 +6,6 @@ A live view of the Sorting Hat project can be found [here](https://sorting-hat-b
 ![Snapshot View of Site](/assets/sorting-hat.gif)
 
 **Technologies Used**
--HTML
--CSS
--JavaScript
+* HTML
+* CSS
+* JavaScript
